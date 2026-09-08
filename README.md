@@ -206,7 +206,7 @@ Os scripts SQL estão organizados na pasta `roteiros/`.
 
 ### Consultas
 
-- `13__consultas.sql`
+- `13_consultas.sql`
 
 ### Atendentes, produtos e itens dos atendimentos
 
@@ -278,7 +278,7 @@ Os atendentes são relacionados às consultas realizadas pela clínica.
 
 ## 🔎 Consultas SQL
 
-O arquivo `13__consultas.sql` contém consultas para demonstrar o funcionamento do banco de dados, incluindo:
+O arquivo `13_consultas.sql` contém consultas para demonstrar o funcionamento do banco de dados, incluindo:
 
 - Listagem de tutores e seus animais;
 - Listagem de animais e respectivos tutores;
@@ -291,7 +291,7 @@ O arquivo `13__consultas.sql` contém consultas para demonstrar o funcionamento 
 - Animais por espécie;
 - Tratamentos e seus respectivos medicamentos.
 
-Os arquivos `18__consulta_completa_atendimentos.sql` e `19__calcular_total_atendimentos.sql` complementam as consultas relacionadas aos atendimentos, permitindo visualizar os dados completos e calcular o valor total dos itens utilizados.
+Os arquivos `18_consulta_completa_atendimentos.sql` e `19_calcular_total_atendimentos.sql` complementam as consultas relacionadas aos atendimentos, permitindo visualizar os dados completos e calcular o valor total dos itens utilizados.
 
 ## 🔄 Manipulação de Dados
 
