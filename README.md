@@ -38,21 +38,17 @@ O banco de dados será composto pelas seguintes entidades:
 
 ```mermaid
 erDiagram
-
     TUTORES ||--o{ ANIMAIS : possui
-    ANIMAIS ||--o{ CONSULTAS : realiza
+    ANIMAIS ||--o{ CONSULTAS : recebe
     VETERINARIOS ||--o{ CONSULTAS : realiza
-    ESPECIALIDADES ||--o{ VETERINARIOS : possui
-
-    CONSULTAS ||--o{ TRATAMENTOS : gera
-    TRATAMENTOS ||--o{ PRESCRICOES : possui
-    MEDICAMENTOS ||--o{ PRESCRICOES : utilizado_em
-
-    ANIMAIS ||--o{ VACINACOES : recebe
-    VACINAS ||--o{ VACINACOES : aplicada_em
+    CONSULTAS ||--o{ TRATAMENTOS : possui
+    TRATAMENTOS ||--o{ TRATAMENTOS_MEDICAMENTOS : utiliza
+    MEDICAMENTOS ||--o{ TRATAMENTOS_MEDICAMENTOS : participa
+    ANIMAIS ||--o{ ANIMAIS_VACINAS : recebe
+    VACINAS ||--o{ ANIMAIS_VACINAS : aplicada
 
     TUTORES {
-        INTEGER id_tutor PK
+        SERIAL id_tutor PK
         VARCHAR nome
         VARCHAR cpf UK
         VARCHAR telefone
@@ -60,74 +56,71 @@ erDiagram
     }
 
     ANIMAIS {
-        INTEGER id_animal PK
-        INTEGER id_tutor FK
+        SERIAL id_animal PK
         VARCHAR nome
         VARCHAR especie
         VARCHAR raca
+        VARCHAR sexo
         DATE data_nascimento
-        CHAR sexo
-    }
-
-    ESPECIALIDADES {
-        INTEGER id_especialidade PK
-        VARCHAR nome UK
-        TEXT descricao
+        INTEGER id_tutor FK
     }
 
     VETERINARIOS {
-        INTEGER id_veterinario PK
-        INTEGER id_especialidade FK
+        SERIAL id_veterinario PK
         VARCHAR nome
         VARCHAR crmv UK
         VARCHAR telefone
         VARCHAR email UK
+        VARCHAR especialidade
     }
 
     CONSULTAS {
-        INTEGER id_consulta PK
+        SERIAL id_consulta PK
+        DATE data_consulta
+        TIME horario
+        VARCHAR motivo
+        VARCHAR diagnostico
         INTEGER id_animal FK
         INTEGER id_veterinario FK
-        TIMESTAMP data_hora
-        TEXT motivo
-        TEXT observacoes
     }
 
     TRATAMENTOS {
-        INTEGER id_tratamento PK
-        INTEGER id_consulta FK
+        SERIAL id_tratamento PK
         VARCHAR descricao
         DATE data_inicio
         DATE data_fim
+        VARCHAR observacoes
+        INTEGER id_consulta FK
     }
 
     MEDICAMENTOS {
-        INTEGER id_medicamento PK
-        VARCHAR nome UK
+        SERIAL id_medicamento PK
+        VARCHAR nome
+        VARCHAR principio_ativo
         VARCHAR fabricante
         VARCHAR dosagem
+        VARCHAR observacoes
     }
 
-    PRESCRICOES {
-        INTEGER id_prescricao PK
-        INTEGER id_tratamento FK
-        INTEGER id_medicamento FK
+    TRATAMENTOS_MEDICAMENTOS {
+        INTEGER id_tratamento PK, FK
+        INTEGER id_medicamento PK, FK
         VARCHAR dosagem
         VARCHAR frequencia
         INTEGER duracao_dias
     }
 
     VACINAS {
-        INTEGER id_vacina PK
-        VARCHAR nome UK
-        TEXT descricao
-        INTEGER intervalo_dias
+        SERIAL id_vacina PK
+        VARCHAR nome
+        VARCHAR fabricante
+        VARCHAR descricao
+        INTEGER doses
     }
 
-    VACINACOES {
-        INTEGER id_vacinacao PK
-        INTEGER id_animal FK
-        INTEGER id_vacina FK
-        DATE data_aplicacao
+    ANIMAIS_VACINAS {
+        INTEGER id_animal PK, FK
+        INTEGER id_vacina PK, FK
+        DATE data_aplicacao PK
         DATE proxima_dose
     }
