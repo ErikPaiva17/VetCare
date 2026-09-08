@@ -45,10 +45,10 @@ ORDER BY a.nome;
 
 SELECT
     c.id_consulta,
-    c.consulta_de_dados,
-    c.horário,
+    c.data_consulta,
+    c.horario,
     c.motivo,
-    c.diagnóstico,
+    c.diagnostico,
     a.nome AS animal,
     v.nome AS veterinario,
     v.especialidade
@@ -57,7 +57,7 @@ INNER JOIN animais a
     ON c.id_animal = a.id_animal
 INNER JOIN veterinarios v
     ON c.id_veterinario = v.id_veterinario
-ORDER BY c.consulta_de_dados, c.horário;
+ORDER BY c.data_consulta, c.horario;
 
 
 -- ============================================================
@@ -66,12 +66,12 @@ ORDER BY c.consulta_de_dados, c.horário;
 
 SELECT
     tr.id_tratamento,
-    tr.descrição,
+    tr.descricao,
     tr.data_inicio,
     tr.data_fim,
-    tr.observações,
+    tr.observacoes,
     a.nome AS animal,
-    c.consulta_de_dados
+    c.data_consulta
 FROM tratamentos tr
 INNER JOIN consultas c
     ON tr.id_consulta = c.id_consulta
@@ -86,10 +86,10 @@ ORDER BY tr.data_inicio;
 
 SELECT
     tr.id_tratamento,
-    tr.descrição AS tratamento,
+    tr.descricao AS tratamento,
     m.nome AS medicamento,
     tm.dosagem,
-    tm.frequência,
+    tm.frequencia,
     tm.duracao_dias
 FROM tratamentos_medicamentos tm
 INNER JOIN tratamentos tr
@@ -107,9 +107,9 @@ SELECT
     a.id_animal,
     a.nome AS animal,
     v.nome AS vacina,
-    v.produtor,
+    v.fabricante,
     av.data_aplicacao,
-    av.dose_proximal
+    av.proxima_dose
 FROM animais_vacinas av
 INNER JOIN animais a
     ON av.id_animal = a.id_animal
@@ -125,15 +125,15 @@ ORDER BY a.nome, av.data_aplicacao;
 SELECT
     a.nome AS animal,
     t.nome AS tutor,
-    c.consulta_de_dados,
-    c.horário,
+    c.data_consulta,
+    c.horario,
     c.motivo,
-    c.diagnóstico,
+    c.diagnostico,
     v.nome AS veterinario,
-    tr.descrição AS tratamento,
+    tr.descricao AS tratamento,
     tr.data_inicio,
     tr.data_fim,
-    tr.observações
+    tr.observacoes
 FROM animais a
 INNER JOIN tutores t
     ON a.id_tutor = t.id_tutor
@@ -144,7 +144,7 @@ LEFT JOIN veterinarios v
 LEFT JOIN tratamentos tr
     ON tr.id_consulta = c.id_consulta
 WHERE a.nome = 'Rex'
-ORDER BY c.consulta_de_dados;
+ORDER BY c.data_consulta;
 
 
 -- ============================================================
@@ -186,10 +186,10 @@ ORDER BY a.nome;
 
 SELECT
     a.nome AS animal,
-    tr.descrição AS tratamento,
+    tr.descricao AS tratamento,
     m.nome AS medicamento,
     tm.dosagem,
-    tm.frequência,
+    tm.frequencia,
     tm.duracao_dias
 FROM tratamentos tr
 INNER JOIN consultas c
