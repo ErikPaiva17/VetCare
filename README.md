@@ -4,11 +4,15 @@
 
 O projeto **Cuidados Veterinários** consiste no desenvolvimento de um banco de dados relacional para auxiliar no gerenciamento das informações de uma clínica veterinária.
 
-O sistema foi desenvolvido para organizar e armazenar informações sobre tutores, animais, veterinários, consultas, tratamentos, medicamentos e vacinas. Com isso, a clínica poderá manter seus dados organizados, facilitando o controle dos atendimentos e do histórico dos animais.
+O sistema foi desenvolvido para organizar informações sobre tutores, animais, veterinários, atendimentos, tratamentos, medicamentos, vacinas, atendentes e produtos, permitindo um melhor controle dos atendimentos e do histórico dos animais.
+
+---
 
 ## 🎯 Objetivo Geral
 
-Desenvolver um banco de dados relacional utilizando **PostgreSQL** para gerenciar as informações de uma clínica veterinária, permitindo o cadastro e o controle de animais, seus respectivos tutores, veterinários, consultas, tratamentos, medicamentos e vacinações.
+Desenvolver um banco de dados relacional utilizando **PostgreSQL** para gerenciar as informações de uma clínica veterinária, permitindo o cadastro e o controle de animais, seus respectivos tutores, veterinários, atendimentos, tratamentos, medicamentos, vacinações, atendentes e produtos.
+
+---
 
 ## 👥 Público-Alvo
 
@@ -19,25 +23,51 @@ O sistema é destinado principalmente a:
 - Atendentes e funcionários de clínicas;
 - Administradores de estabelecimentos veterinários.
 
+---
+
 ## 🗃️ Modelo de Dados Relacional
 
-O banco de dados será composto pelas seguintes entidades:
+O banco de dados é composto pelas seguintes entidades:
 
 - **Tutores:** armazena os dados dos responsáveis pelos animais.
 - **Animais:** armazena os dados dos animais atendidos pela clínica.
 - **Veterinários:** armazena os dados dos profissionais responsáveis pelos atendimentos.
-- **Especialidades:** registra as especialidades dos veterinários.
-- **Consultas:** registra os atendimentos realizados pelos veterinários.
-- **Tratamentos:** armazena os tratamentos indicados para os animais.
-- **Medicamentos:** registra os medicamentos utilizados pela clínica.
-- **Prescrições:** relaciona os medicamentos aos tratamentos.
-- **Vacinas:** armazena as vacinas disponíveis na clínica.
-- **Vacinações:** registra as vacinas aplicadas nos animais.
+- **Consultas:** registra os atendimentos realizados para os animais.
+- **Tratamentos:** armazena os tratamentos indicados durante os atendimentos.
+- **Medicamentos:** registra os medicamentos utilizados nos tratamentos.
+- **Tratamentos_Medicamentos:** relaciona os tratamentos aos medicamentos utilizados.
+- **Vacinas:** armazena as vacinas utilizadas pela clínica.
+- **Animais_Vacinas:** registra as vacinas aplicadas em cada animal.
+- **Atendentes:** armazena os dados dos funcionários responsáveis pelo atendimento.
+- **Produtos:** registra os produtos comercializados ou utilizados pela clínica.
+- **Atendimento_Itens:** relaciona os atendimentos aos produtos e serviços utilizados, armazenando seus respectivos valores.
 
-### Diagrama do Banco de Dados
+---
+
+## 🔗 Relacionamentos
+
+Os principais relacionamentos do banco de dados são:
+
+- Um **tutor** pode possuir vários **animais**.
+- Um **animal** pode possuir várias **consultas**.
+- Um **veterinário** pode realizar várias **consultas**.
+- Uma **consulta** pode possuir vários **tratamentos**.
+- Um **tratamento** pode utilizar vários **medicamentos**.
+- Um **medicamento** pode ser utilizado em vários **tratamentos**.
+- Um **animal** pode receber várias **vacinas**.
+- Uma **vacina** pode ser aplicada em vários **animais**.
+- Um **atendente** pode participar de vários **atendimentos**.
+- Um **atendimento** pode possuir vários itens de produtos ou serviços.
+- Um **produto** pode aparecer em vários itens de atendimento.
+- Um atendente também pode ser cadastrado como **tutor/cliente** da clínica.
+
+---
+
+## 📊 Diagrama do Banco de Dados
 
 ```mermaid
 erDiagram
+
     TUTORES ||--o{ ANIMAIS : possui
     ANIMAIS ||--o{ CONSULTAS : recebe
     VETERINARIOS ||--o{ CONSULTAS : realiza
@@ -46,6 +76,8 @@ erDiagram
     MEDICAMENTOS ||--o{ TRATAMENTOS_MEDICAMENTOS : participa
     ANIMAIS ||--o{ ANIMAIS_VACINAS : recebe
     VACINAS ||--o{ ANIMAIS_VACINAS : aplicada
+    ATENDENTES ||--o{ ATENDIMENTO_ITENS : registra
+    PRODUTOS ||--o{ ATENDIMENTO_ITENS : utilizado
 
     TUTORES {
         SERIAL id_tutor PK
@@ -121,6 +153,30 @@ erDiagram
     ANIMAIS_VACINAS {
         INTEGER id_animal PK, FK
         INTEGER id_vacina PK, FK
-        DATE data_aplicacao PK
+        DATE data_aplicacao
         DATE proxima_dose
+    }
+
+    ATENDENTES {
+        SERIAL id_atendente PK
+        VARCHAR nome
+        VARCHAR cpf UK
+        VARCHAR telefone
+        VARCHAR email UK
+    }
+
+    PRODUTOS {
+        SERIAL id_produto PK
+        VARCHAR tipo
+        VARCHAR marca
+        VARCHAR descricao
+        NUMERIC valor_compra
+    }
+
+    ATENDIMENTO_ITENS {
+        INTEGER id_atendimento PK, FK
+        INTEGER id_produto PK, FK
+        VARCHAR tipo
+        NUMERIC valor
+        INTEGER quantidade
     }
